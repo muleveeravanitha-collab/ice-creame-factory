@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f5e8">
+  <meta name="description" content="Small-batch ice cream, churned fresh every morning. Meet the Morrow & Melt menu and place a scoop order.">
+  <title>Morrow & Melt | Small-batch ice cream</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f8f5e8;
+      --paper-deep: #eee9d7;
+      --ink: #203d32;
+      --ink-soft: #52645a;
+      --green: #264d3b;
+      --green-deep: #19372b;
+      --tomato: #e9563f;
+      --butter: #f5d768;
+      --line: #d8d4c2;
+      --white: #fffdf5;
+      --serif: "Fraunces", Georgia, serif;
+      --sans: "DM Sans", "Segoe UI", sans-serif;
+      --shadow: 0 18px 55px rgb(32 61 50 / 13%);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body:has(dialog[open]), body:has(.cart-drawer.is-open) { overflow: hidden; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .wrap { width: min(1240px, calc(100% - 64px)); margin-inline: auto; }
+    .eyebrow { margin: 0 0 14px; color: var(--tomato); font-size: 11px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .serif { font-family: var(--serif); font-weight: 600; letter-spacing: 0; }
+    .site-header { height: 78px; display: flex; align-items: center; border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font-family: var(--serif); font-size: 23px; font-weight: 700; letter-spacing: 0; white-space: nowrap; }
+    .brand-mark { width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50% 50% 48% 48%; background: var(--tomato); color: var(--white); font-family: var(--sans); font-size: 18px; transform: rotate(-8deg); }
+    .nav-links { display: flex; gap: 30px; color: var(--ink-soft); font-size: 13px; font-weight: 600; }
+    .nav-links a:hover { color: var(--tomato); }
+    .nav-actions { display: flex; align-items: center; gap: 18px; }
+    .hours { color: var(--ink-soft); font-size: 11px; line-height: 1.35; text-align: right; }
+    .hours strong { display: block; color: var(--ink); font-size: 12px; }
+    .cart-trigger, .button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 9px; border: 0; border-radius: 999px; background: var(--green); color: var(--white); font-size: 12px; font-weight: 700; cursor: pointer; transition: background .18s ease, transform .18s ease; }
+    .cart-trigger { padding: 0 17px; }
+    .cart-trigger:hover, .button:hover { background: var(--green-deep); transform: translateY(-1px); }
+    .cart-count { min-width: 21px; height: 21px; display: grid; place-items: center; border-radius: 50%; background: var(--butter); color: var(--ink); font-size: 11px; }
+
+    .hero { padding: 50px 0 65px; }
+    .hero-grid { min-height: 520px; display: grid; grid-template-columns: .94fr 1.06fr; align-items: center; gap: 50px; }
+    .hero-copy { padding: 20px 0 25px 4px; }
+    .hero h1 { max-width: 590px; margin: 0 0 21px; font-family: var(--serif); font-size: clamp(64px, 7.4vw, 98px); font-weight: 600; line-height: .91; letter-spacing: 0; }
+    .hero h1 em { color: var(--tomato); font-style: normal; }
+    .hero-copy > p:not(.eyebrow) { max-width: 410px; margin: 0; color: var(--ink-soft); font-size: 15px; line-height: 1.75; }
+    .hero-actions { display: flex; align-items: center; gap: 22px; margin-top: 28px; }
+    .button { padding: 0 22px; }
+    .text-link { padding: 8px 0; border-bottom: 1px solid var(--ink); font-size: 12px; font-weight: 700; }
+    .text-link:hover { color: var(--tomato); border-color: var(--tomato); }
+    .hero-image { height: 500px; position: relative; overflow: hidden; border-radius: 48% 48% 9px 9px; background: #ecd9b9; }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 54%; }
+    .hero-note { position: absolute; right: 20px; bottom: 19px; padding: 13px 16px; border-radius: 3px; background: var(--butter); color: var(--ink); font-size: 11px; font-weight: 700; transform: rotate(-3deg); }
+    .hero-note span { display: block; margin-bottom: 3px; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }
+
+    .marquee { overflow: hidden; padding: 14px 0; background: var(--tomato); color: var(--white); }
+    .marquee-inner { display: flex; justify-content: center; align-items: center; gap: 27px; font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+    .marquee-inner span:nth-child(even) { color: var(--butter); font-size: 16px; }
+    .menu-section { padding: 94px 0 104px; }
+    .section-top { display: flex; justify-content: space-between; align-items: end; gap: 25px; margin-bottom: 34px; }
+    .section-top h2, .story h2 { margin: 0; font-family: var(--serif); font-size: clamp(42px, 5vw, 62px); font-weight: 600; line-height: 1; letter-spacing: 0; }
+    .section-top > p { max-width: 285px; margin: 0 0 4px; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
+    .flavors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 21px; }
+    .flavor { min-width: 0; }
+    .flavor-image { height: 260px; position: relative; overflow: hidden; background: var(--paper-deep); }
+    .flavor-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .flavor:hover .flavor-image img { transform: scale(1.04); }
+    .flavor:nth-child(2) .flavor-image img { object-position: 50% 60%; }
+    .flavor:nth-child(4) .flavor-image img { object-position: 50% 55%; }
+    .flavor-tag { position: absolute; top: 12px; left: 12px; padding: 7px 9px; background: var(--butter); color: var(--ink); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .flavor-info { display: flex; justify-content: space-between; align-items: start; gap: 12px; padding: 15px 1px 0; }
+    .flavor-info h3 { margin: 0 0 5px; font-family: var(--serif); font-size: 23px; font-weight: 600; line-height: 1.1; letter-spacing: 0; }
+    .flavor-info p { max-width: 260px; margin: 0; color: var(--ink-soft); font-size: 11px; line-height: 1.6; }
+    .flavor-buy { display: flex; flex: 0 0 auto; flex-direction: column; align-items: end; gap: 11px; }
+    .price { font-size: 13px; font-weight: 700; white-space: nowrap; }
+    .add-button { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--green); border-radius: 50%; background: transparent; color: var(--green); font-size: 20px; line-height: 1; cursor: pointer; transition: background .18s ease, color .18s ease; }
+    .add-button:hover { background: var(--green); color: var(--white); }
+
+    .story { position: relative; overflow: hidden; padding: 76px 0 82px; background: var(--green); color: var(--white); }
+    .story::after { width: 390px; height: 390px; position: absolute; right: -90px; bottom: -210px; border: 1px solid rgb(255 255 255 / 16%); border-radius: 50%; content: ""; box-shadow: 0 0 0 28px rgb(255 255 255 / 4%), 0 0 0 58px rgb(255 255 255 / 4%); }
+    .story-grid { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 80px; }
+    .story .eyebrow { color: var(--butter); }
+    .story h2 { max-width: 520px; }
+    .story-copy { max-width: 445px; color: rgb(255 253 245 / 75%); font-size: 14px; line-height: 1.8; }
+    .story-copy p { margin: 0 0 17px; }
+    .story-facts { display: flex; gap: 42px; margin-top: 28px; }
+    .story-facts strong { display: block; color: var(--butter); font-family: var(--serif); font-size: 29px; font-weight: 600; }
+    .story-facts span { display: block; margin-top: 3px; color: rgb(255 253 245 / 74%); font-size: 10px; }
+
+    .visit { padding: 75px 0 80px; }
+    .visit-grid { display: grid; grid-template-columns: .8fr 1.2fr; align-items: center; gap: 60px; }
+    .visit h2 { margin: 0 0 15px; font-family: var(--serif); font-size: 42px; font-weight: 600; line-height: 1; letter-spacing: 0; }
+    .visit p:not(.eyebrow) { max-width: 330px; color: var(--ink-soft); font-size: 13px; line-height: 1.7; }
+    .visit-details { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .visit-details div { padding: 20px 18px; border-right: 1px solid var(--line); }
+    .visit-details div:first-child { padding-left: 0; }
+    .visit-details div:last-child { border: 0; }
+    .visit-details span { display: block; margin-bottom: 8px; color: var(--tomato); font-size: 9px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase; }
+    .visit-details strong { font-size: 12px; line-height: 1.55; }
+    footer { padding: 23px 0; border-top: 1px solid var(--line); }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-inner p { margin: 0; color: var(--ink-soft); font-size: 10px; }
+    .footer-links { display: flex; gap: 18px; font-size: 10px; font-weight: 700; }
+    .footer-links a:hover { color: var(--tomato); }
+
+    .backdrop { position: fixed; z-index: 20; inset: 0; background: rgb(22 40 32 / 42%); opacity: 0; visibility: hidden; transition: opacity .2s ease, visibility .2s; }
+    .backdrop.is-open { opacity: 1; visibility: visible; }
+    .cart-drawer { width: min(420px, 100%); height: 100dvh; position: fixed; z-index: 21; top: 0; right: 0; display: flex; flex-direction: column; padding: 25px; background: var(--paper); box-shadow: var(--shadow); transform: translateX(105%); transition: transform .26s ease; }
+    .cart-drawer.is-open { transform: translateX(0); }
+    .drawer-head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .drawer-head h2 { margin: 0; font-family: var(--serif); font-size: 29px; letter-spacing: 0; }
+    .icon-button { width: 38px; height: 38px; display: grid; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: transparent; font-size: 20px; cursor: pointer; }
+    .icon-button:hover { background: var(--paper-deep); }
+    .cart-items { flex: 1; overflow: auto; padding: 10px 0; }
+    .empty-cart { padding: 42px 5px; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
+    .cart-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 12px; padding: 17px 0; border-bottom: 1px solid var(--line); }
+    .cart-row h3 { margin: 0 0 4px; font-family: var(--serif); font-size: 17px; letter-spacing: 0; }
+    .cart-row p { margin: 0; color: var(--ink-soft); font-size: 11px; }
+    .quantity { display: flex; align-items: center; gap: 9px; }
+    .quantity button { width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 50%; background: transparent; font-size: 16px; line-height: 1; cursor: pointer; }
+    .quantity button:hover { border-color: var(--green); }
+    .quantity span { min-width: 11px; text-align: center; font-size: 12px; font-weight: 700; }
+    .cart-bottom { padding-top: 17px; border-top: 1px solid var(--line); }
+    .subtotal { display: flex; justify-content: space-between; margin-bottom: 17px; font-size: 14px; font-weight: 700; }
+    .checkout-button { width: 100%; }
+    .fine-print { margin: 10px 0 0; color: var(--ink-soft); font-size: 10px; line-height: 1.5; text-align: center; }
+
+    dialog { width: min(450px, calc(100% - 28px)); max-height: min(90dvh, 700px); padding: 0; overflow: auto; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); color: var(--ink); box-shadow: var(--shadow); }
+    dialog::backdrop { background: rgb(22 40 32 / 48%); backdrop-filter: blur(2px); }
+    .dialog-inner { padding: 27px; }
+    .dialog-top { display: flex; justify-content: space-between; align-items: start; gap: 15px; margin-bottom: 22px; }
+    .dialog-top h2 { margin: 0; font-family: var(--serif); font-size: 29px; letter-spacing: 0; }
+    .dialog-top p { margin: 5px 0 0; color: var(--ink-soft); font-size: 11px; }
+    .form-field { display: grid; gap: 6px; margin-bottom: 15px; }
+    .form-field label { font-size: 11px; font-weight: 700; }
+    .form-field input { width: 100%; height: 43px; padding: 0 12px; border: 1px solid var(--line); border-radius: 3px; outline: none; background: var(--white); color: var(--ink); font-size: 13px; }
+    .form-field input:focus { border-color: var(--green); box-shadow: 0 0 0 2px rgb(38 77 59 / 12%); }
+    .pickup-note { margin: 18px 0; padding: 12px; background: var(--paper-deep); font-size: 11px; line-height: 1.55; }
+    .dialog-submit { width: 100%; }
+    .receipt-number { margin: 0 0 8px; color: var(--tomato); font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .receipt-total { display: flex; justify-content: space-between; padding: 15px 0; border-top: 1px solid var(--line); font-size: 14px; font-weight: 700; }
+
+    .chat-launcher { width: 58px; height: 58px; position: fixed; z-index: 31; right: 25px; bottom: 24px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--tomato); color: var(--white); box-shadow: 0 7px 22px rgb(90 53 42 / 24%); cursor: pointer; transition: transform .18s ease; }
+    .chat-launcher:hover { transform: translateY(-3px); }
+    .chat-launcher svg { width: 23px; height: 23px; }
+    .chat-panel { width: min(370px, calc(100% - 28px)); height: min(510px, calc(100dvh - 100px)); position: fixed; z-index: 32; right: 25px; bottom: 94px; display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 5px; background: var(--paper); box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity .18s ease, transform .18s ease, visibility .18s; }
+    .chat-panel.is-open { opacity: 1; visibility: visible; transform: translateY(0); }
+    .chat-head { display: flex; justify-content: space-between; align-items: center; padding: 16px 17px; background: var(--green); color: var(--white); }
+    .chat-title { display: flex; align-items: center; gap: 10px; }
+    .chat-avatar { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%; background: var(--butter); color: var(--ink); font-size: 15px; }
+    .chat-title strong { display: block; font-family: var(--serif); font-size: 17px; letter-spacing: 0; }
+    .chat-title span { display: block; margin-top: 2px; color: rgb(255 253 245 / 75%); font-size: 9px; }
+    .chat-head .icon-button { width: 31px; height: 31px; border-color: rgb(255 255 255 / 30%); color: white; font-size: 17px; }
+    .chat-log { flex: 1; overflow: auto; padding: 16px 13px; }
+    .chat-message { max-width: 87%; width: fit-content; margin: 0 0 10px; padding: 10px 12px; border-radius: 12px 12px 12px 3px; background: var(--paper-deep); color: var(--ink); font-size: 11px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .chat-message.user { margin-left: auto; border-radius: 12px 12px 3px 12px; background: var(--green); color: var(--white); }
+    .chat-message.error { border: 1px solid #e8b1a6; background: #fff0eb; }
+    .chat-quick { display: flex; gap: 6px; overflow-x: auto; padding: 0 13px 10px; }
+    .chat-quick button { flex: 0 0 auto; padding: 7px 9px; border: 1px solid var(--line); border-radius: 999px; background: transparent; font-size: 9px; cursor: pointer; }
+    .chat-quick button:hover { border-color: var(--green); }
+    .chat-form { display: flex; gap: 8px; padding: 11px; border-top: 1px solid var(--line); }
+    .chat-form input { min-width: 0; flex: 1; height: 39px; padding: 0 11px; border: 1px solid var(--line); border-radius: 999px; outline: 0; background: var(--white); font-size: 11px; }
+    .chat-form input:focus { border-color: var(--green); }
+    .chat-form button { width: 39px; height: 39px; display: grid; flex: 0 0 auto; place-items: center; border: 0; border-radius: 50%; background: var(--tomato); color: white; cursor: pointer; }
+    .chat-form button:disabled { cursor: wait; opacity: .55; }
+
+    @media (min-width: 1500px) { .hero h1 { font-size: 104px; } }
+    @media (max-width: 900px) {
+      .wrap { width: min(100% - 40px, 680px); }
+      .nav-links { gap: 16px; }
+      .hours { display: none; }
+      .hero { padding: 34px 0 48px; }
+      .hero-grid { min-height: 420px; grid-template-columns: .95fr 1.05fr; gap: 23px; }
+      .hero h1 { font-size: clamp(57px, 8vw, 77px); }
+      .hero-image { height: 410px; }
+      .flavors { gap: 25px 15px; }
+      .flavor-image { height: 215px; }
+      .flavor-info h3 { font-size: 19px; }
+      .story-grid { gap: 38px; }
+      .visit-grid { gap: 30px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { width: calc(100% - 36px); }
+      .site-header { height: 66px; }
+      .brand { gap: 8px; font-size: 20px; }
+      .brand-mark { width: 27px; height: 27px; font-size: 16px; }
+      .nav { gap: 10px; }
+      .nav-links { display: none; }
+      .nav-actions { margin-left: auto; }
+      .cart-trigger { min-height: 39px; padding: 0 12px; font-size: 11px; }
+      .hero { padding: 28px 0 43px; }
+      .hero-grid { display: flex; flex-direction: column; align-items: stretch; gap: 26px; }
+      .hero-copy { padding: 4px 0 0; }
+      .hero h1 { max-width: 450px; margin-bottom: 15px; font-size: clamp(61px, 14vw, 84px); }
+      .hero-copy > p:not(.eyebrow) { max-width: 370px; font-size: 13px; }
+      .hero-actions { margin-top: 20px; }
+      .hero-image { height: min(112vw, 430px); border-radius: 46% 46% 5px 5px; }
+      .marquee-inner { justify-content: flex-start; gap: 17px; animation: crawl 25s linear infinite; }
+      @keyframes crawl { to { transform: translateX(-20%); } }
+      .menu-section { padding: 64px 0 70px; }
+      .section-top { align-items: start; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+      .section-top h2, .story h2 { font-size: 46px; }
+      .section-top > p { font-size: 12px; }
+      .flavors { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 12px; }
+      .flavor-image { height: clamp(145px, 49vw, 245px); }
+      .flavor-info { gap: 5px; padding-top: 11px; }
+      .flavor-info h3 { max-width: 145px; font-size: 17px; }
+      .flavor-info p { font-size: 10px; }
+      .flavor-buy { gap: 8px; }
+      .price { font-size: 11px; }
+      .add-button { width: 31px; height: 31px; }
+      .flavor-tag { top: 8px; left: 8px; padding: 6px 7px; font-size: 8px; }
+      .story { padding: 58px 0; }
+      .story-grid { grid-template-columns: 1fr; gap: 25px; }
+      .story-copy { font-size: 13px; }
+      .story-facts { gap: 28px; }
+      .visit { padding: 55px 0 58px; }
+      .visit-grid { grid-template-columns: 1fr; gap: 24px; }
+      .visit h2 { font-size: 38px; }
+      .visit-details { grid-template-columns: 1fr; }
+      .visit-details div, .visit-details div:first-child { padding: 13px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+      .visit-details div:last-child { border-bottom: 0; }
+      .visit-details span { margin-bottom: 5px; }
+      .footer-inner { align-items: start; flex-direction: column; gap: 10px; }
+      .chat-launcher { width: 52px; height: 52px; right: 16px; bottom: 16px; }
+      .chat-panel { right: 14px; bottom: 78px; }
+      .cart-drawer { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#top" aria-label="Morrow and Melt home"><span class="brand-mark" aria-hidden="true">m</span>Morrow &amp; Melt</a>
+      <div class="nav-links"><a href="#menu">The menu</a><a href="#story">Our way</a><a href="#visit">Find us</a></div>
+      <div class="nav-actions"><div class="hours"><strong>Open every day</strong>12 noon till the last scoop</div><button class="cart-trigger" id="open-cart" type="button" aria-label="Open your order">Your order <span class="cart-count" id="cart-count">0</span></button></div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">The good stuff, made slowly</p>
+          <h1 id="hero-title">A little<br>more <em>melt.</em></h1>
+          <p>Real milk, ripe fruit, and absolutely no hurry. We make our ice cream in tiny batches, right here in the neighborhood.</p>
+          <div class="hero-actions"><a class="button" href="#menu">Find your flavor <span aria-hidden="true">&#8594;</span></a><a class="text-link" href="#story">How we churn</a></div>
+        </div>
+        <div class="hero-image"><img src="https://images.unsplash.com/photo-1560008581-09826d1de69e?auto=format&amp;fit=crop&amp;w=1100&amp;q=85" alt="Freshly scooped ice cream cones ready for a sunny afternoon" fetchpriority="high"><div class="hero-note"><span>Today's little joy</span>Two scoops, no plans</div></div>
+      </div>
+    </section>
+
+    <div class="marquee" aria-label="Made fresh daily with local ingredients"><div class="marquee-inner"><span>Made fresh daily</span><span aria-hidden="true">✳</span><span>Good milk, good mood</span><span aria-hidden="true">✳</span><span>Local fruit when it's lovely</span><span aria-hidden="true">✳</span><span>Made fresh daily</span><span aria-hidden="true">✳</span><span>Good milk, good mood</span></div></div>
+
+    <section class="menu-section wrap" id="menu" aria-labelledby="menu-heading">
+      <div class="section-top"><div><p class="eyebrow">Six scoops, zero bad choices</p><h2 id="menu-heading">The cold case</h2></div><p>Made in small batches, with the seasons and the good things they bring.</p></div>
+      <div class="flavors" id="flavors"></div>
+    </section>
+
+    <section class="story" id="story" aria-labelledby="story-heading">
+      <div class="story-grid wrap">
+        <div><p class="eyebrow">A very small factory</p><h2 id="story-heading">Good things take a little longer.</h2></div>
+        <div class="story-copy"><p>We started with one borrowed churn, a very enthusiastic dog, and a notebook full of ideas. These days we make each batch in the little brick room behind our shop.</p><p>Milk from a nearby dairy. Fruit picked when it's ready. A little less air in every scoop. That's the whole secret, really.</p><div class="story-facts"><div><strong>24 hr</strong><span>from fresh churn to cone</span></div><div><strong>6</strong><span>flavors, made by hand</span></div><div><strong>0</strong><span>mystery ingredients</span></div></div></div>
+      </div>
+    </section>
+
+    <section class="visit wrap" id="visit" aria-labelledby="visit-heading">
+      <div class="visit-grid"><div><p class="eyebrow">Pop by for a scoop</p><h2 id="visit-heading">We'll keep a cone cold for you.</h2><p>Come for a little treat, stay because the afternoon feels nice.</p></div><div class="visit-details"><div><span>Find us</span><strong>18 Orchard Lane<br>Market District</strong></div><div><span>Opening hours</span><strong>Daily, noon-8pm<br>Later on sunny Fridays</strong></div><div><span>Pick-up orders</span><strong>Place an order online<br>Collect at the counter</strong></div></div></div>
+    </section>
+  </main>
+
+  <footer><div class="footer-inner wrap"><a class="brand" href="#top"><span class="brand-mark" aria-hidden="true">m</span>Morrow &amp; Melt</a><p>Small-batch scoops &bull; Made for the good part of your day</p><div class="footer-links"><a href="#menu">Menu</a><a href="#visit">Visit</a><a href="#top" id="footer-chat">Ask our scoop helper</a></div></div></footer>
+
+  <div class="backdrop" id="cart-backdrop"></div>
+  <aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-heading" aria-hidden="true">
+    <div class="drawer-head"><h2 id="cart-heading">Your order</h2><button class="icon-button" id="close-cart" type="button" aria-label="Close order">&times;</button></div>
+    <div class="cart-items" id="cart-items"></div>
+    <div class="cart-bottom"><div class="subtotal"><span>Subtotal</span><span id="subtotal">$0.00</span></div><button class="button checkout-button" id="checkout-button" type="button">Continue to pick-up</button><p class="fine-print">Pay at the counter when you collect. No payment is taken online.</p></div>
+  </aside>
+
+  <dialog id="checkout-dialog" aria-labelledby="checkout-heading"><form class="dialog-inner" id="checkout-form"><div class="dialog-top"><div><h2 id="checkout-heading">A scoop with your name on it.</h2><p>Leave your details and we'll have it ready for pick-up.</p></div><button class="icon-button" type="button" data-close-dialog aria-label="Close checkout">&times;</button></div><label class="form-field"><span>First and last name</span><input name="customerName" autocomplete="name" required maxlength="80" placeholder="Sunny Day"></label><label class="form-field"><span>Email for your receipt</span><input name="email" type="email" autocomplete="email" required maxlength="120" placeholder="sunny@example.com"></label><div class="pickup-note"><strong>Pick-up at the counter</strong><br>18 Orchard Lane, Market District. Pay when you arrive; no card details needed.</div><div class="subtotal"><span>Order total</span><span id="checkout-total">$0.00</span></div><button class="button dialog-submit" type="submit">Place pick-up order</button></form></dialog>
+  <dialog id="receipt-dialog" aria-labelledby="receipt-heading"><div class="dialog-inner"><div class="dialog-top"><div><p class="receipt-number" id="receipt-number"></p><h2 id="receipt-heading">Your scoops are on the way.</h2></div><button class="icon-button" type="button" data-close-dialog aria-label="Close receipt">&times;</button></div><p id="receipt-greeting" style="font-size:13px;line-height:1.7"></p><div id="receipt-items"></div><div class="receipt-total"><span>Total, pay at pick-up</span><span id="receipt-total"></span></div><p style="color:var(--ink-soft);font-size:11px;line-height:1.6">We've saved this order in this browser. This demo does not send it to the shop or process payment.</p><button class="button dialog-submit" type="button" data-close-dialog>Lovely, thanks</button></div></dialog>
+
+  <section class="chat-panel" id="chat-panel" aria-label="Melt the scoop helper" aria-hidden="true"><div class="chat-head"><div class="chat-title"><div class="chat-avatar" aria-hidden="true">✳</div><div><strong>Melt, the scoop helper</strong><span>Ask about flavors or get a pairing</span></div></div><button class="icon-button" id="close-chat" type="button" aria-label="Close chat">&times;</button></div><div class="chat-log" id="chat-log" role="log" aria-live="polite"><div class="chat-message">Hey there! Want help finding your flavor? I'm happiest talking fruit, chocolate, and second scoops.</div></div><div class="chat-quick"><button type="button" data-prompt="What's your most popular flavor?">Most popular?</button><button type="button" data-prompt="I like fruity desserts. What should I try?">Something fruity</button><button type="button" data-prompt="What are the prices?">Prices</button></div><form class="chat-form" id="chat-form"><input id="chat-input" autocomplete="off" maxlength="500" placeholder="Ask me anything about scoops" aria-label="Message the scoop helper"><button type="submit" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button></form></section>
+  <button class="chat-launcher" id="chat-launcher" type="button" aria-label="Chat with Melt, the scoop helper" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg></button>
+
+  <script>
+    const menu = [
+      { id: "blackberry", name: "Blackberry buttermilk", description: "Tart summer berries folded into our tangy buttermilk base.", price: 5.50, tag: "A little tangy", image: "photo-1497034825429-c343d7c6a68f", alt: "Scoops of rich berry ice cream" },
+      { id: "pistachio", name: "Pistachio, no shortcuts", description: "Toasted Sicilian pistachios, a tiny pinch of sea salt.", price: 5.75, tag: "House favorite", image: "photo-1501446529957-6226bd447c46", alt: "Handmade pistachio ice cream scoop" },
+      { id: "chocolate", name: "Chocolate tahini swirl", description: "Dark chocolate, nutty tahini, and a ribbon of honey.", price: 5.50, tag: "Deep & lovely", image: "photo-1563805042-7684c019e1cb", alt: "Chocolate ice cream with a glossy drizzle" },
+      { id: "strawberry", name: "Strawberry milk", description: "Peak-season strawberries and the milk from up the road.", price: 5.25, tag: "Seasonal", image: "photo-1488900128323-21503983a07e", alt: "Strawberry ice cream with fresh berries" },
+      { id: "honeycomb", name: "Honeycomb crunch", description: "Golden, crunchy honeycomb in a slow-churned vanilla.", price: 5.50, tag: "Extra crunchy", image: "photo-1497034825429-c343d7c6a68f", alt: "Honeycomb pieces and creamy ice cream" },
+      { id: "lemon", name: "Lemon basil sorbet", description: "Bright lemon, garden basil, and absolutely no dairy.", price: 5.00, tag: "Dairy-free", image: "photo-1501446529957-6226bd447c46", alt: "Freshly scooped lemon sorbet" }
+    ];
+    const money = amount => `$${amount.toFixed(2)}`;
+    const safeRead = (key, fallback) => {
+      try { return JSON.parse(localStorage.getItem(key)) ?? fallback; }
+      catch { return fallback; }
+    };
+    let cart = safeRead("morrow-melt-cart", {});
+    const flavorsNode = document.querySelector("#flavors");
+    const cartDrawer = document.querySelector("#cart-drawer");
+    const cartBackdrop = document.querySelector("#cart-backdrop");
+    const chatLog = document.querySelector("#chat-log");
+    const chatHistory = [];
+
+    function renderMenu() {
+      flavorsNode.innerHTML = menu.map(item => `
+        <article class="flavor">
+          <div class="flavor-image"><img src="https://images.unsplash.com/${item.image}?auto=format&amp;fit=crop&amp;w=700&amp;q=80" alt="${item.alt}" loading="lazy"><span class="flavor-tag">${item.tag}</span></div>
+          <div class="flavor-info"><div><h3>${item.name}</h3><p>${item.description}</p></div><div class="flavor-buy"><span class="price">${money(item.price)} / scoop</span><button class="add-button" type="button" data-add="${item.id}" aria-label="Add ${item.name} to your order">+</button></div></div>
+        </article>`).join("");
+    }
+
+    function saveCart() {
+      try { localStorage.setItem("morrow-melt-cart", JSON.stringify(cart)); }
+      catch { /* Keep this order in memory if browser storage is unavailable. */ }
+      renderCart();
+    }
+
+    function renderCart() {
+      const lines = menu.filter(item => cart[item.id] > 0);
+      const count = lines.reduce((sum, item) => sum + cart[item.id], 0);
+      const total = lines.reduce((sum, item) => sum + item.price * cart[item.id], 0);
+      document.querySelector("#cart-count").textContent = count;
+      document.querySelector("#subtotal").textContent = money(total);
+      document.querySelector("#checkout-total").textContent = money(total);
+      document.querySelector("#checkout-button").disabled = count === 0;
+      document.querySelector("#checkout-button").style.opacity = count === 0 ? ".55" : "1";
+      document.querySelector("#checkout-button").style.cursor = count === 0 ? "not-allowed" : "pointer";
+      document.querySelector("#cart-items").innerHTML = lines.length ? lines.map(item => `
+        <div class="cart-row"><div><h3>${item.name}</h3><p>${money(item.price)} each</p></div><div class="quantity"><button type="button" data-quantity="${item.id}" data-delta="-1" aria-label="Remove one ${item.name}">&minus;</button><span>${cart[item.id]}</span><button type="button" data-quantity="${item.id}" data-delta="1" aria-label="Add one ${item.name}">+</button></div></div>`).join("") : `<p class="empty-cart">No scoops just yet. Find your favorite in the cold case and we'll save it here.</p>`;
+    }
+
+    function setCartOpen(open) {
+      cartDrawer.classList.toggle("is-open", open);
+      cartBackdrop.classList.toggle("is-open", open);
+      cartDrawer.setAttribute("aria-hidden", String(!open));
+      if (open) document.querySelector("#close-cart").focus();
+      else document.querySelector("#open-cart").focus();
+    }
+
+    flavorsNode.addEventListener("click", event => {
+      const button = event.target.closest("[data-add]");
+      if (!button) return;
+      const id = button.dataset.add;
+      cart[id] = (cart[id] || 0) + 1;
+      saveCart();
+      button.textContent = "✓";
+      window.setTimeout(() => { button.textContent = "+"; }, 650);
+    });
+
+    document.querySelector("#cart-items").addEventListener("click", event => {
+      const button = event.target.closest("[data-quantity]");
+      if (!button) return;
+      const id = button.dataset.quantity;
+      cart[id] = Math.max(0, (cart[id] || 0) + Number(button.dataset.delta));
+      if (!cart[id]) delete cart[id];
+      saveCart();
+    });
+
+    document.querySelector("#open-cart").addEventListener("click", () => setCartOpen(true));
+    document.querySelector("#close-cart").addEventListener("click", () => setCartOpen(false));
+    cartBackdrop.addEventListener("click", () => setCartOpen(false));
+    document.querySelector("#checkout-button").addEventListener("click", () => {
+      if (!Object.values(cart).some(count => count > 0)) return;
+      setCartOpen(false);
+      document.querySelector("#checkout-dialog").showModal();
+    });
+    document.querySelectorAll("[data-close-dialog]").forEach(button => button.addEventListener("click", () => button.closest("dialog").close()));
+    document.querySelectorAll("dialog").forEach(dialog => dialog.addEventListener("click", event => {
+      if (event.target === dialog) dialog.close();
+    }));
+    document.querySelector("#checkout-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const lines = menu.filter(item => cart[item.id] > 0).map(item => ({ name: item.name, quantity: cart[item.id], price: item.price }));
+      const total = lines.reduce((sum, line) => sum + line.price * line.quantity, 0);
+      const order = { number: `MM-${Date.now().toString().slice(-6)}`, name: String(data.get("customerName")).trim(), email: String(data.get("email")).trim(), items: lines, total, createdAt: new Date().toISOString() };
+      const savedOrders = safeRead("morrow-melt-orders", []);
+      try { localStorage.setItem("morrow-melt-orders", JSON.stringify([order, ...savedOrders].slice(0, 20))); }
+      catch { /* Show the receipt even when storage is unavailable. */ }
+      document.querySelector("#receipt-number").textContent = `Order ${order.number}`;
+      document.querySelector("#receipt-greeting").textContent = `Thanks, ${order.name}. Your pick-up order is ready to show at our counter.`;
+      document.querySelector("#receipt-items").innerHTML = lines.map(line => `<p style="display:flex;justify-content:space-between;gap:12px;font-size:12px"><span>${line.quantity} x ${line.name}</span><strong>${money(line.price * line.quantity)}</strong></p>`).join("");
+      document.querySelector("#receipt-total").textContent = money(total);
+      form.reset();
+      cart = {};
+      saveCart();
+      document.querySelector("#checkout-dialog").close();
+      document.querySelector("#receipt-dialog").showModal();
+    });
+
+    const chatPanel = document.querySelector("#chat-panel");
+    function setChatOpen(open) {
+      chatPanel.classList.toggle("is-open", open);
+      chatPanel.setAttribute("aria-hidden", String(!open));
+      document.querySelector("#chat-launcher").setAttribute("aria-expanded", String(open));
+      if (open) document.querySelector("#chat-input").focus();
+    }
+    document.querySelector("#chat-launcher").addEventListener("click", () => setChatOpen(!chatPanel.classList.contains("is-open")));
+    document.querySelector("#close-chat").addEventListener("click", () => setChatOpen(false));
+    document.querySelector("#footer-chat").addEventListener("click", event => { event.preventDefault(); setChatOpen(true); });
+
+    function addChatMessage(text, kind = "assistant") {
+      const message = document.createElement("div");
+      message.className = `chat-message${kind === "user" ? " user" : kind === "error" ? " error" : ""}`;
+      message.textContent = text;
+      chatLog.append(message);
+      chatLog.scrollTop = chatLog.scrollHeight;
+      return message;
+    }
+
+    async function sendChat(text) {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+      addChatMessage(trimmed, "user");
+      chatHistory.push({ role: "user", content: trimmed });
+      const form = document.querySelector("#chat-form");
+      const submit = form.querySelector("button[type='submit']");
+      submit.disabled = true;
+      const pending = addChatMessage("Let me think up a good scoop...");
+      const flavorList = menu.map(item => `${item.name} (${money(item.price)} per scoop): ${item.description}`).join("\n");
+      try {
+        const response = await fetch("http://localhost:11434/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            model: "llama3.2:3b",
+            stream: false,
+            messages: [
+              { role: "system", content: `You are Melt, a warm, concise ice cream shop helper for Morrow & Melt. Recommend flavors from this menu and accurately quote their prices. Menu:\n${flavorList}\nShop: 18 Orchard Lane, Market District. Open daily noon to 8pm. Orders on this demo website are local pick-up requests, paid at the counter; do not claim an order has been placed. For allergies, advise the customer to contact the shop because cross-contamination details are not available. Be friendly, use plain language, and keep replies under 100 words.` },
+              ...chatHistory.slice(-12)
+            ]
+          })
+        });
+        if (!response.ok) throw new Error(`Ollama returned ${response.status}. Check that the model is running.`);
+        const result = await response.json();
+        if (!result.message?.content) throw new Error("Ollama replied without a message. Try again.");
+        chatHistory.push({ role: "assistant", content: result.message.content });
+        pending.remove();
+        addChatMessage(result.message.content);
+      } catch (error) {
+        pending.remove();
+        const detail = error instanceof TypeError
+          ? "I can't reach your local Ollama server. Start Ollama with the setup steps in README.md, then try again."
+          : error.message;
+        addChatMessage(detail, "error");
+        chatHistory.pop();
+      } finally {
+        submit.disabled = false;
+        document.querySelector("#chat-input").focus();
+      }
+    }
+
+    document.querySelector("#chat-form").addEventListener("submit", event => {
+      event.preventDefault();
+      const input = document.querySelector("#chat-input");
+      const text = input.value;
+      input.value = "";
+      sendChat(text);
+    });
+    document.querySelector(".chat-quick").addEventListener("click", event => {
+      const button = event.target.closest("[data-prompt]");
+      if (button) sendChat(button.dataset.prompt);
+    });
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape" && cartDrawer.classList.contains("is-open")) setCartOpen(false);
+    });
+
+    renderMenu();
+    renderCart();
+  </script>
+</body>
+</html>
